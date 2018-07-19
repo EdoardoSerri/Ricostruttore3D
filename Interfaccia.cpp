@@ -5,89 +5,82 @@ using namespace std;
 
 	Interfaccia::Interfaccia() {
 
-		this->win = new Fl_Window(600, 200, "Ricostruttore 3D");
+		this->win = new Fl_Window(600, 200, "Ricostruttore 3D");	// costruttore inizializza grandezza finestra principale	
 	}
 
-	void Interfaccia::setInitButt(Fl_Button *but, Fl_Button *cancella) {
+	void Interfaccia::setInitButt(Fl_Button *but, Fl_Button *cancella) { //funzione che definisce i bottoni e le funzioni ad essi associate
 		
 		but = new Fl_Button(this->win->w() / 2 - 150, 30, 200, 100, "Scegli le immagini");
-		but->callback(Interfaccia::staticScegliFileCB, (void*)this);
+		but->callback(Interfaccia::staticScegliFileCB, (void*)this); // apre il file explorer
 		cancella = new Fl_Button(this->win->w() - 200, 30, 80, 30, "Esci");
-		cancella->callback(Interfaccia::staticEsci_CB);
+		cancella->callback(Interfaccia::staticEsci_CB); // chiude il programma
 	}
 
 	void Interfaccia::costruzioneFinestra() { // Funzione per la creazione della finestra
-		
 		this->win->size_range(this->win->w(), this->win->h(), 0, 0);
 		this->win->begin();
 		{
 			Interfaccia::setInitButt( this->but, this->cancella);
+
 		}
 		this->win -> end();
 		
 		this->win->show();
-		Fl::run();
 
-
+		Fl::run(); //loop per la visualizzazione della finestra
+		
 	}
 
 	vector<string> Interfaccia::getPath() { // Funzione per ritorno dei percorsi dei file
 		return this->path;
 	}
 
-
-
-	void Interfaccia::setXY(int x, int y) {
-		this->x = 80;
-		this->y = 150;
-	}
-
 	void Interfaccia::scegliFile_CB(Fl_Widget* w) {
 		// Crea File Chooser
 		Fl_Native_File_Chooser native;
-		native.title("Scegli File per la ricostruzione");
+		string nomifile = "Hai scelto \n"; // stringa per finestra di scelta
+		native.title("Scegli File per la ricostruzione"); //titolo file chooser
 		native.type(Fl_Native_File_Chooser::BROWSE_MULTI_FILE);
-		native.filter("Img\t*.jpg\n *.jpeg\n *.ppm)\n");
+		native.directory("C:\\Users\\");
+		native.filter("Img\t*.jpg\n *.jpeg\n *.ppm\n"); //tipi supportati
 		// Mostra File Chooser
-		setXY(x,y);
 		switch (native.show()) {
 		case -1: native.errmsg(); break;	// ERRORE
 		case  1:  fl_beep(); break;		// CANCELLA
 		default: 								// FILE SCELTI
 			if (native.filename()) {
-				if (native.count()>1) {
-					for (int i = 0; i <= native.count(); i++) {
-
+				if (native.count()==2) { //file scelti devono essere due
+					for (int i = 0; i < native.count(); i++) {
 						this->path.push_back(native.filename(i)); // Inserisco path del file in un vector per caricamento posteriore
-						this->G_filename = new Fl_Output(this->x + 30, this->y, this->win->w() - 150, 25, "Nome del File"); //Creo nuova barra Output
-						this->G_filename->value(native.filename(i)); // Inserisco path
-						this->win->add(this->G_filename);
+						nomifile += (native.filename(i))+ (string)"\n"; // concateno la stringa da visualizzare con i file scelti
 					}
-					this->win->redraw();
-					this->win->resize(100, 100, 600, this->y + 50);
-					this->avanti = new Fl_Button(this->win->w() - 100, 30, 80, 30, "Avanti");
-					this->avanti->callback(Interfaccia::staticAvanti_CB);
-					this->win->add(avanti);
-					 // Ricarico la finestra con un nuovo bottone per andare Avanti
+					nomifile += "?";
+
+					switch (fl_choice(nomifile.c_str(), "Indietro","Avanti",0)) { // chiede all'utente se i file scelti sono corretti
+					case 0: // i file non sono corretti..
+						for (int i = 0; i < native.count(); i++) {
+							this->path.pop_back(); // libera il vector
+						}
+						break;
+					case 1: // esegue il ricostruttore
+
+							exit(0);
+							break;					
+					}
 
 				}
 				else {
-					native.errmsg();
-					fl_alert("Devi inserire più di un'immagine"); // Alert se i file sono meno di due
+					native.errmsg(); // sono state scelte meno o più di due immagini
+					fl_alert("Devi inserire più di un'immagine e massimo DUE immagini"); // Alert se i file sono meno di due
 					break;
 				}
-
-
-			}
-			else {
-				this->G_filename->value("NULL");
 			}
 			break;
 		}
 	}
 
 	void Interfaccia::staticScegliFileCB(Fl_Widget* w, void* data) {
-		Interfaccia *o = (Interfaccia*)data; // Istanzio oggetto per static callback
+		Interfaccia *o = (Interfaccia*)data; // Istanzio oggetto per static callback per aprire la finestra per scegliere i file
 		o->Interfaccia::scegliFile_CB(w);
 	}
 
@@ -100,18 +93,4 @@ using namespace std;
 		o->Interfaccia::esci_CB(w);
 	}
 
-	void Interfaccia::avanti_CB(Fl_Widget* w) { // Calback per proseguire
-		switch (fl_choice("Confermi i file scelti?", "No", "Sì", 0)) {
-			case 0:
-				break;
-			case 1:
-				exit(0);
-				break;
-		} //Richiesta se i file immessi sono corretti
 
-	}
-
-	void Interfaccia::staticAvanti_CB(Fl_Widget* w, void* data) { // Callback statica di avanti
-		Interfaccia *o = (Interfaccia*)data;
-		o->Interfaccia::avanti_CB(w);
-	}
