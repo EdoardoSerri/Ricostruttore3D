@@ -22,7 +22,7 @@
 #include <string>
 #include <vector>
 #include <iostream>
-#include <Ricostruttore3d.h>
+#include "Ricostruttore3d.h"
 #define LARGHEZZA_SLIDER 200 //definisco una costante che voglio rimarrà identica per tutto il tempo di esecuzione
 #define ALTEZZA_SLIDER 20 //definisco una costante che voglio rimarrà identica per tutto il tempo di esecuzione
 #define POSITION_X_SLIDER 20 //definisco una costante che voglio rimarrà identica per tutto il tempo di esecuzione
@@ -45,7 +45,7 @@ public:
 private:
     void inizializzazioneParametri();
     void salvaSuFile(const float &,const float &,const float &,const float &,const float &,const float &,const float &,const float &)const;
-    void salvaValore(const float&,const char&);
+    void salvaValore(const float&,const int &);
     vector<string> explode(const string&,const char&);
     static void Butt_CB(Fl_Widget*, void*);
     static void Disparita_CB(Fl_Widget*, void*);
@@ -66,14 +66,14 @@ private:
     Fl_Slider *sws=NULL;
     Fl_Slider *sr=NULL;
     Fl_Slider *diff12=NULL;
-    float p_disparity;
-    float p_p1;
-    float p_p2;
-    float p_min;
-    float p_uratio;
-    float p_sws;
-    float p_sr;
-    float p_diff12;
+    static float p_disparity;
+    static float p_p1;
+    static float p_p2;
+    static float p_min;
+    static float p_uratio;
+    static float p_sws;
+    static float p_sr;
+    static float p_diff12;
     const vector<string> file;
 };
 

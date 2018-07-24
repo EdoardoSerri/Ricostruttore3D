@@ -5,8 +5,8 @@
 //
 #include "Configurazione.h"
 
-Configurazione::Configurazione(const vector<string> &files):p_disparity(16.00),p_p1(100),p_p2(1000),p_min(0),p_uratio(10),p_sws(400),p_sr(600),p_diff12(1),file(files){
-    
+Configurazione::Configurazione(const vector<string> &files):file(files){
+    //this->inizializzazioneParametri();
     Fl_Window *win = new Fl_Window(500, 240, "Parametri per matcher");
     //Fl_Slider slider(300,35, 300,20);
     
@@ -95,51 +95,51 @@ void Configurazione::Disparita_CB(Fl_Widget *w, void*data) {
     
     Fl_Slider *slider = (Fl_Slider*)w;
     Configurazione *o= (Configurazione*)data;
-    o->Configurazione::salvaValore(slider->value(),'disparita');
+    o->Configurazione::salvaValore(slider->value(),0);
 }
 void Configurazione::P1_CB(Fl_Widget *w, void*data) {
     
     Fl_Slider *slider = (Fl_Slider*)w;
     Configurazione *o= (Configurazione*)data;
-    o->Configurazione::salvaValore(slider->value(),'p1');
+    o->Configurazione::salvaValore(slider->value(),1);
 }
 void Configurazione::P2_CB(Fl_Widget *w, void*data) {
     
     Fl_Slider *slider = (Fl_Slider*)w;
     Configurazione *o= (Configurazione*)data;
-    o->Configurazione::salvaValore(slider->value(),'p2');
+    o->Configurazione::salvaValore(slider->value(),2);
 }
 void Configurazione::MinDisparita_CB(Fl_Widget *w, void*data) {
     
     Fl_Slider *slider = (Fl_Slider*)w;
     Configurazione *o= (Configurazione*)data;
-    o->Configurazione::salvaValore(slider->value(),'mind');
+    o->Configurazione::salvaValore(slider->value(),3);
 }
 void Configurazione::UniquessRatio_CB(Fl_Widget *w, void*data) {
     
     Fl_Slider *slider = (Fl_Slider*)w;
     Configurazione *o= (Configurazione*)data;
-    o->Configurazione::salvaValore(slider->value(),'uniquessRatio');
+    o->Configurazione::salvaValore(slider->value(),4);
 }
 void Configurazione::SpekleWindow_CB(Fl_Widget *w, void*data) {
     
     Fl_Slider *slider = (Fl_Slider*)w;
     Configurazione *o= (Configurazione*)data;
-    o->Configurazione::salvaValore(slider->value(),'sws');
+    o->Configurazione::salvaValore(slider->value(),5);
 }
 void Configurazione::SpekleRange_CB(Fl_Widget *w, void*data) {
     
     Fl_Slider *slider = (Fl_Slider*)w;
     Configurazione *o= (Configurazione*)data;
-    o->Configurazione::salvaValore(slider->value(),'sr');
+    o->Configurazione::salvaValore(slider->value(),6);
 }
 void Configurazione::Diff12_CB(Fl_Widget *w, void*data) {
     
     Fl_Slider *slider = (Fl_Slider*)w;
     Configurazione *o= (Configurazione*)data;
-    o->Configurazione::salvaValore(slider->value(),'diff12');
+    o->Configurazione::salvaValore(slider->value(),7);
 }
-void Configurazione::salvaValore(const float &valore,const char &scelta){
+void Configurazione::salvaValore(const float &valore,const int &scelta){
     fstream myfile("configurazione.txt");
     vector<string> configurazione;
     if (myfile.is_open())
@@ -155,52 +155,52 @@ void Configurazione::salvaValore(const float &valore,const char &scelta){
         myfile.close();
     }
     switch (scelta) {
-        case 'disparita':
+        case 0:
         {
             this->salvaSuFile(valore, stof(configurazione[1]), stof(configurazione[2]), stof(configurazione[3]), stof(configurazione[4]), stof(configurazione[5]), stof(configurazione[6]), stof(configurazione[7]));
-            
+            this->p_disparity=valore;
         }
             break;
-        case 'p1':
+        case 1:
         {
             this->salvaSuFile(stof(configurazione[0]), valore, stof(configurazione[2]), stof(configurazione[3]), stof(configurazione[4]), stof(configurazione[5]), stof(configurazione[6]), stof(configurazione[7]));
-            
+            this->p_p1=valore;
         }
             break;
-        case 'p2':
+        case 2:
         {
             this->salvaSuFile(stof(configurazione[0]), stof(configurazione[1]), valore, stof(configurazione[3]), stof(configurazione[4]), stof(configurazione[5]), stof(configurazione[6]), stof(configurazione[7]));
-            
+            this->p_p2=valore;
         }
             break;
-        case 'mind':
+        case 3:
         {
             this->salvaSuFile(stof(configurazione[0]), stof(configurazione[1]), stof(configurazione[2]), valore, stof(configurazione[4]), stof(configurazione[5]), stof(configurazione[6]), stof(configurazione[7]));
-            
+            this->p_min=valore;
         }
             break;
-        case 'uniquessRatio':
+        case 4:
         {
             this->salvaSuFile(stof(configurazione[0]), stof(configurazione[1]), stof(configurazione[2]), stof(configurazione[3]), valore, stof(configurazione[5]), stof(configurazione[6]), stof(configurazione[7]));
-            
+            this->p_uratio=valore;
         }
             break;
-        case 'sws':
+        case 5:
         {
             this->salvaSuFile(stof(configurazione[0]), stof(configurazione[1]), stof(configurazione[2]), stof(configurazione[3]), stof(configurazione[4]), valore, stof(configurazione[6]), stof(configurazione[7]));
-            
+            this->p_sws=valore;
         }
             break;
-        case 'sr':
+        case 6:
         {
             this->salvaSuFile(stof(configurazione[0]), stof(configurazione[1]), stof(configurazione[2]), stof(configurazione[3]), stof(configurazione[4]), stof(configurazione[5]), valore, stof(configurazione[7]));
-            
+            this->p_sr=valore;
         }
             break;
-        case 'diff12':
+        case 7:
         {
             this->salvaSuFile(stof(configurazione[0]), stof(configurazione[1]), stof(configurazione[2]), stof(configurazione[3]), stof(configurazione[4]), stof(configurazione[5]), stof(configurazione[6]), valore);
-            
+            this->p_diff12=valore;
         }
             break;
             
@@ -214,6 +214,7 @@ void Configurazione::salvaSuFile(const float &disparita,const float &p1,const fl
     fclose(fp);
 }
 float Configurazione:: estraiDisparita() const{
+   
     return this->p_disparity;
 }
 float Configurazione::estraiP1() const{
@@ -244,7 +245,12 @@ void Configurazione::Butt_CB(Fl_Widget*w, void*data) {
     
 }
 void Configurazione::creaFile()const{
+    ofstream myfile;
+    myfile.open ("filename.txt");
+    myfile << "Writing this to a file.\n";
+    myfile.close();
     FILE* fp = fopen("configurazione.txt", "wt");
+    
     fprintf(fp, "%f %f %f %f %f %f %f %f\n", this->p_disparity, this->p_p1, this->p_p2, this->p_min, this->p_uratio, this->p_sws, this->p_sr, this->p_diff12);
     fclose(fp);
 }
@@ -263,12 +269,16 @@ void Configurazione::inizializzazioneParametri(){
             if(configurazione.length()>0){
                 configurazione=temp;
             }else{
+                cout<<"creo file";
                 this->creaFile();
             }
         }
         myfile.close();
+    }else{
+        cout<<"file non trovato";
+        this->creaFile();
     }
-    
+    cout<<configurazione<<endl;
     vector<string> values = explode(configurazione, ' ');
     this->p_disparity=stof(values.at(0));
     this->p_p1=stof(values.at(1));
@@ -281,7 +291,9 @@ void Configurazione::inizializzazioneParametri(){
     
 }
 void Configurazione::setParams(Fl_Widget*w){
-    Ricostruttore *r=new Ricostruttore3d(this->file,2,this->p_disparity,this->p_min,this->uratio,this->p_sws,this->p_sr,this->p_diff12,this->p_p1,this->p_p2);
+    Ricostruttore3d *r = new Ricostruttore3d(this->file,2,this->estraiDisparita(),this->estraiMinDisparita(),this->estraiUniqueRatio(),this->estraiSWS(),this->estraiSR(),this->estraiDiff12(),this->estraiP1(),this->estraiP2());
+    delete r;
+    r = 0;
 }
 
 vector<string> Configurazione::explode(const string &stringa,const char &delimitatore){

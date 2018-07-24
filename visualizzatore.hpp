@@ -15,7 +15,6 @@
 #ifndef VISUALIZZATORE_HPP
 #define VISUALIZZATORE_HPP
 
-#include <stdio.h>
 #include <opencv2/viz.hpp>
 
 class Visualizzatore{
@@ -37,9 +36,9 @@ private:
     // Verify parameters cam is set
     bool cnt_cam_set(cv::Vec3f);
     // Default setting of cam set
-    void set_defoult_cam_set();
-    void set_defoult_cam_focal_point();
-    void set_defoult_cam_y_dir();
+    void set_default_cam_set();
+    void set_default_cam_focal_point();
+    void set_default_cam_y_dir();
     
     /// Data Member
     cv::Vec3f cam_pos;

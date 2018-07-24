@@ -10,23 +10,27 @@
 
 Visualizzatore::Visualizzatore(cv::Mat cvcloud_load){
     /// Set camera following properties default
+    
     //camera position
     if(cnt_cam_set(this->cam_pos))
-        set_defoult_cam_set();
+        set_default_cam_set();
     //camera focale point
     if(cnt_cam_set(this->cam_focal_point))
-        set_defoult_cam_focal_point();
+        set_default_cam_focal_point();
     //camera yow direction
     if(cnt_cam_set(this->cam_y_dir))
-        set_defoult_cam_y_dir();
+        set_default_cam_y_dir();
     
     /// Create a window
+    
     cv::viz::Viz3d myWindow("Visualizzatore Point Cloud");
+    myWindow.setBackgroundColor(cv::viz::Color::white());
     
     /// We can get the pose of the cam using makeCameraPose
     cv::Affine3f cam_pose = cv::viz::makeCameraPose(this->cam_pos, this->cam_focal_point, this->cam_y_dir);
     
     /// We can get the transformation matrix from camera coordinate system to global using
+    
     /// - makeTransformToGlobal. We need the axes of the camera
     cv::Affine3f transform = cv::viz::makeTransformToGlobal(cv::Vec3f(0.0f,-1.0f,0.0f), cv::Vec3f(-1.0f,0.0f,0.0f), cv::Vec3f(0.0f,0.0f,-1.0f), cam_pos);
     
@@ -94,19 +98,20 @@ bool Visualizzatore::cnt_cam_set(cv::Vec3f vec_cnt){
 }
 
 /// Set defoult parameters for position
-void Visualizzatore::set_defoult_cam_set(){
+
+void Visualizzatore::set_default_cam_set(){
     this->cam_pos.val[0] = 3.0f;
     this->cam_pos.val[1] = 3.0f;
     this->cam_pos.val[2] = 3.0f;
 }
 
-void Visualizzatore::set_defoult_cam_focal_point(){
+void Visualizzatore::set_default_cam_focal_point(){
     this->cam_focal_point.val[0] = 3.0f;
     this->cam_focal_point.val[1] = 3.0f;
     this->cam_focal_point.val[2] = 2.0f;
 }
 
-void Visualizzatore::set_defoult_cam_y_dir(){
+void Visualizzatore::set_default_cam_y_dir(){
     this->cam_y_dir.val[0] = -1.0f;
     this->cam_y_dir.val[1] = 0.0f;
     this->cam_y_dir.val[2] = 0.0f;

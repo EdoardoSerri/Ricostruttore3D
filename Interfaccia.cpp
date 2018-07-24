@@ -9,7 +9,6 @@ using namespace std;
 	}
 
 	void Interfaccia::setInitButt(Fl_Button *but, Fl_Button *cancella) { //funzione che definisce i bottoni e le funzioni ad essi associate
-		
 		but = new Fl_Button(this->win->w() / 2 - 150, 30, 200, 100, "Scegli le immagini");
 		but->callback(Interfaccia::staticScegliFileCB, (void*)this); // apre il file explorer
 		cancella = new Fl_Button(this->win->w() - 200, 30, 80, 30, "Esci");
@@ -21,14 +20,10 @@ using namespace std;
 		this->win->begin();
 		{
 			Interfaccia::setInitButt( this->but, this->cancella);
-
 		}
-		this->win -> end();
-		
+		this->win->end();
 		this->win->show();
-
 		Fl::run(); //loop per la visualizzazione della finestra
-		
 	}
 
 	vector<string> Interfaccia::getPath() { // Funzione per ritorno dei percorsi dei file
@@ -42,7 +37,7 @@ using namespace std;
 		native.title("Scegli File per la ricostruzione"); //titolo file chooser
 		native.type(Fl_Native_File_Chooser::BROWSE_MULTI_FILE);
 		native.directory("C:\\Users\\");
-		native.filter("Img\t*.jpg\n *.jpeg\n *.ppm\n"); //tipi supportati
+		native.filter("*.ppm\n*.jpg\n*.jpeg\n"); //tipi supportati
 		// Mostra File Chooser
 		switch (native.show()) {
 		case -1: native.errmsg(); break;	// ERRORE
@@ -63,11 +58,12 @@ using namespace std;
 						}
 						break;
 					case 1: // esegue il ricostruttore
-
-							exit(0);
+                            this->win->hide();
+                            delete this->win;
+                            this->win=0;
+                            Configurazione *c=new Configurazione(this->getPath());
 							break;					
 					}
-
 				}
 				else {
 					native.errmsg(); // sono state scelte meno o più di due immagini

@@ -1,6 +1,7 @@
 #ifndef Interfaccia_H
 #define Intefaccia_H
 
+#include "Configurazione.h"
 #include <FL/Fl.H>
 #include <FL/Fl_Window.H>
 #include <FL/fl_ask.H>
@@ -10,9 +11,6 @@
 #include <iostream>
 #include <vector>
 #include <string>
-
-
-
 
 
 class Interfaccia {
