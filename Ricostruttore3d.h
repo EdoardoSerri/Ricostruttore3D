@@ -32,7 +32,7 @@ class Configurazione;
 class Ricostruttore3d{
 public:
     Ricostruttore3d();
-    Ricostruttore3d(const vector <string> &, const int &, const float &, const float &, const float &, const float &, const float &, const float &, const float &, const float &);
+    Ricostruttore3d(const vector <string> &, const int &, const float &, const float &, const float &, const float &, const float &, const float &, const float &, const float &, const float &);
     ~Ricostruttore3d();
     void vediImmagine(const int &);
     void vediImmagini();

@@ -1,8 +1,5 @@
 #include "Interfaccia.h"
 
-using namespace std;
-
-
 	Interfaccia::Interfaccia() {
 
 		this->win = new Fl_Window(600, 200, "Ricostruttore 3D");	// costruttore inizializza grandezza finestra principale	
@@ -25,7 +22,7 @@ using namespace std;
 		this->win->show();
 		Fl::run(); //loop per la visualizzazione della finestra
 	}
-
+    
 	vector<string> Interfaccia::getPath() { // Funzione per ritorno dei percorsi dei file
 		return this->path;
 	}

@@ -8,9 +8,27 @@
 
 #include "visualizzatore.hpp"
 
-Visualizzatore::Visualizzatore(cv::Mat cvcloud_load){
-    /// Set camera following properties default
+Visualizzatore::Visualizzatore(cv::Mat cvcloud_load, cv::Mat color){
     
+    cv::Mat cloud(1, 1889, CV_32FC3);
+    std::ifstream ifs("/Users/omarcocchiarella/Desktop/PO/viz/viz/viz/bunny.ply");
+    
+    std::string str;
+    for(size_t i = 0; i < 12; ++i)
+        getline(ifs, str);
+    
+    cv::Point3f* data = cloud.ptr<cv::Point3f>();
+    float dummy1, dummy2;
+    for(size_t i = 0; i < 1889; ++i)
+        ifs >> data[i].x >> data[i].y >> data[i].z >> dummy1 >> dummy2;
+    
+    cloud *= 5.0f;
+    
+    
+    /// Create a PLY file from reprojectTo3D
+    //creaPLY(cvcloud_load, color);
+    
+    /// Set camera following properties default
     //camera position
     if(cnt_cam_set(this->cam_pos))
         set_default_cam_set();
@@ -21,27 +39,30 @@ Visualizzatore::Visualizzatore(cv::Mat cvcloud_load){
     if(cnt_cam_set(this->cam_y_dir))
         set_default_cam_y_dir();
     
+    /// Mesch a PLY file
+    //cv::viz::Mesh mesh = cv::viz::Mesh::load("/Users/omarcocchiarella/Desktop/PO/viz/viz/viz/bunny.ply",1);
+    
     /// Create a window
-    
     cv::viz::Viz3d myWindow("Visualizzatore Point Cloud");
-    myWindow.setBackgroundColor(cv::viz::Color::white());
-    
-    /// We can get the pose of the cam using makeCameraPose
-    cv::Affine3f cam_pose = cv::viz::makeCameraPose(this->cam_pos, this->cam_focal_point, this->cam_y_dir);
-    
+
     /// We can get the transformation matrix from camera coordinate system to global using
-    
     /// - makeTransformToGlobal. We need the axes of the camera
     cv::Affine3f transform = cv::viz::makeTransformToGlobal(cv::Vec3f(0.0f,-1.0f,0.0f), cv::Vec3f(-1.0f,0.0f,0.0f), cv::Vec3f(0.0f,0.0f,-1.0f), cam_pos);
     
-    /// Create a cloud widget.
-    cv::viz::WCloud cloud_widget(cvcloud_load, cv::viz::Color::green());
+    /// Pose of the widget in camera frame
+    cv::Affine3f cloud_pose = cv::Affine3f().translate(cv::Vec3f(0.0f,0.0f,3.0f));
+    
+    /// Pose of the widget in global frame
+    cv::Affine3f cloud_pose_global = transform * cloud_pose;
+    
+    cv::viz::WCloud cloud_widget(cvcloud_load, cv::viz::Color::red());
     
     /// Visualize widget
-    myWindow.showWidget("point cloud", cloud_widget, transform);
+    myWindow.showWidget("mesh", /*cv::viz::WMesh(mesh)*/cloud_widget, cloud_pose_global);
     
-    /// Set the viewer pose to that of camera
-    myWindow.setViewerPose(cam_pose);
+    
+    /// Text description
+    myWindow.showWidget("text2d", cv::viz::WText("Visualizzazione cloud point", cv::Point(30, 30), 30, cv::viz::Color::green()));
     
     /// Start event loop.
     myWindow.spin();
@@ -61,6 +82,13 @@ Visualizzatore::~Visualizzatore(){
     this->cam_y_dir.val[1] = 0.0f;
     this->cam_y_dir.val[2] = 0.0f;
 }
+
+
+void Visualizzatore::creaPLY(cv::Mat cvcloud_load, cv::Mat color){
+    DataExporter data_ex(cvcloud_load,color,"/Users/omarcocchiarella/Desktop/PO/viz/viz/viz/pointcloud.ply",PLY_ASCII);
+    data_ex.exportToFile();
+}
+
 
 /// Set function
 

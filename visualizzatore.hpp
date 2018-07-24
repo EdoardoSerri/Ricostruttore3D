@@ -16,12 +16,13 @@
 #define VISUALIZZATORE_HPP
 
 #include <opencv2/viz.hpp>
+#include "DataExporter.hpp" 
 
 class Visualizzatore{
 public:
     /// Public Member Function
     // Costructor / Distructor
-    Visualizzatore(cv::Mat);
+    Visualizzatore(cv::Mat,cv::Mat);
     ~Visualizzatore();
     // Set function
     void set_cam_pos(float, float, float);
@@ -33,6 +34,7 @@ public:
     cv::Vec3f get_cam_y_dir();
 private:
     /// Private Member Function
+    void creaPLY(cv::Mat,cv::Mat);
     // Verify parameters cam is set
     bool cnt_cam_set(cv::Vec3f);
     // Default setting of cam set

@@ -8,7 +8,7 @@
 
 #include "Bidimensionale.h"
 
-Bidimensionale::Bidimensionale(const string &pathName, const string &imgName, const int &nImages):Immagine(pathName,imgName),file(imread(estraiNome(),CV_8UC1)),size(file.size())
+Bidimensionale::Bidimensionale(const string &pathName, const string &imgName, const int &nImages):Immagine(pathName,imgName),file(imread(estraiNome(),IMREAD_GRAYSCALE)),size(file.size())
 {
     Immagine::print();
 }

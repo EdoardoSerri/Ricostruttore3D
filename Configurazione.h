@@ -45,7 +45,7 @@ public:
     float estraiScalle() const;
 private:
     void inizializzazioneParametri();
-    void salvaSuFile(const float &,const float &,const float &,const float &,const float &,const float &,const float &,const float &)const;
+    void salvaSuFile(const float &,const float &,const float &,const float &,const float &,const float &,const float &,const float &,const float &)const;
     void salvaValore(const float&,const int &);
     vector<string> explode(const string&,const char&);
     static void Butt_CB(Fl_Widget*, void*);

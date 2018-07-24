@@ -1,5 +1,5 @@
 #ifndef Interfaccia_H
-#define Intefaccia_H
+#define Interfaccia_H
 
 #include "Configurazione.h"
 #include <FL/Fl.H>
@@ -17,13 +17,13 @@ class Interfaccia {
 public:
 	Interfaccia();
 	void costruzioneFinestra();
-	std::vector<std::string> getPath();
+	vector<std::string> getPath();
 
 private:
-	Fl_Button *but;
-	Fl_Button *cancella;
-	Fl_Window *win;
-	std::vector<std::string> path;
+	Fl_Button *but = NULL;
+	Fl_Button *cancella = NULL;
+	Fl_Window *win = NULL;
+	vector<std::string> path;
 	void setInitButt(Fl_Button *but, Fl_Button *cancella);
 	void scegliFile_CB(Fl_Widget* w);
 	static void staticScegliFileCB(Fl_Widget* w, void* data);

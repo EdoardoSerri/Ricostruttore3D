@@ -15,16 +15,16 @@ Configurazione::Configurazione(const vector<string> &files):file(files){
     fpl->value(75);     //Imposto il valore iniziale "0" dell'indicatore di cmpletamento
     fpl->hide();        //Nascondo l'indicatore di cmpletamento fino al click del bottone calcola
     
-    this->disparita = new Fl_Hor_Value_Slider(POSITION_X_SLIDER,POSITION_Y_SLIDER,LARGHEZZA_SLIDER,ALTEZZA_SLIDER,"Disparita'"); //Instanzio l'oggetto *disparita della classe Fl_Hor_Value_Slider per creare nella finestra uno slider orizzontale
-    this->disparita->minimum(16);  //Imposto il valore minimo per la disparita
-    this->disparita->maximum(1000);//Imposto il valore massimo per la disparita
-    this->disparita->value(this->p_disparity);//Imposto il valore contenuto nel data member della classe
-    this->disparita->align(FL_ALIGN_RIGHT);   //allineo a destra gli indicatori
-    this->disparita->step(16.0);              //imposto che ad ogni incremendo o decremento deve essere precisamente di 16
-    this->disparita->callback(Disparita_CB);  // definisco la funzione di callback per l'eventuale modifica della barra orizontale per la disparita
+    this->disp = new Fl_Hor_Value_Slider(POSITION_X_SLIDER,POSITION_Y_SLIDER,LARGHEZZA_SLIDER,ALTEZZA_SLIDER,"Disparita'"); //Instanzio l'oggetto *disparita della classe Fl_Hor_Value_Slider per creare nella finestra uno slider orizzontale
+    this->disp->minimum(16);  //Imposto il valore minimo per la disparita
+    this->disp->maximum(1000);//Imposto il valore massimo per la disparita
+    this->disp->value(this->p_disparity);//Imposto il valore contenuto nel data member della classe
+    this->disp->align(FL_ALIGN_RIGHT);   //allineo a destra gli indicatori
+    this->disp->step(16.0);              //imposto che ad ogni incremendo o decremento deve essere precisamente di 16
+    this->disp->callback(Disparita_CB);  // definisco la funzione di callback per l'eventuale modifica della barra orizontale per la disparita
     
     
-    this->mind=new Fl_Hor_Value_Slider(POSITION_X_SLIDER,POSITION_Y_SLIDER+2*(ALTEZZA_SLIDER),LARGHEZZA_SLIDER,ALTEZZA_SLIDER,"Disparita' minima"); //Instanzio l'oggetto *mininima disparita della classe Fl_Hor_Value_Slider per creare nella finestra uno slider orizzontale
+    this->mind=new Fl_Hor_Value_Slider(POSITION_X_SLIDER,POSITION_Y_SLIDER+(ALTEZZA_SLIDER),LARGHEZZA_SLIDER,ALTEZZA_SLIDER,"Disparita' minima"); //Instanzio l'oggetto *mininima disparita della classe Fl_Hor_Value_Slider per creare nella finestra uno slider orizzontale
     this->mind->minimum(0);//Imposto il valore minimo per la mininima disparita
     this->mind->maximum(1000);//Imposto il valore massimo per la mininima disparita
     this->mind->value(this->p_min);//Imposto il valore contenuto nel data member della classe
@@ -32,7 +32,7 @@ Configurazione::Configurazione(const vector<string> &files):file(files){
     this->mind->step(1.0);//imposto che ad ogni incremendo o decremento deve essere precisamente di 1
     this->mind->callback(MinDisparita_CB);// definisco la funzione di callback per l'eventuale modifica della barra orizontale per la disparita
     
-    this->uratio=new Fl_Hor_Value_Slider(POSITION_X_SLIDER,POSITION_Y_SLIDER+3*(ALTEZZA_SLIDER),LARGHEZZA_SLIDER,ALTEZZA_SLIDER,"Unicita' ratio");//Instanzio l'oggetto *uniquess ratio della classe Fl_Hor_Value_Slider per creare nella finestra uno slider orizzontale
+    this->uratio=new Fl_Hor_Value_Slider(POSITION_X_SLIDER,POSITION_Y_SLIDER+2*(ALTEZZA_SLIDER),LARGHEZZA_SLIDER,ALTEZZA_SLIDER,"Unicita' ratio");//Instanzio l'oggetto *uniquess ratio della classe Fl_Hor_Value_Slider per creare nella finestra uno slider orizzontale
     this->uratio->minimum(1);//Imposto il valore minimo per la uniquess ratio
     this->uratio->maximum(1000);//Imposto il valore massimo per la uniquess ratio
     this->uratio->value(this->p_uratio);//Imposto il valore contenuto nel data member della classe
@@ -40,15 +40,15 @@ Configurazione::Configurazione(const vector<string> &files):file(files){
     this->uratio->step(1.0);//imposto che ad ogni incremendo o decremento deve essere precisamente di 1
     this->uratio->callback(UniquessRatio_CB);// definisco la funzione di callback per l'eventuale modifica della barra orizontale per la mininima disparita
     
-    this->prefiltercap=new Fl_Hor_Value_Slider(POSITION_X_SLIDER,POSITION_Y_SLIDER+4*(ALTEZZA_SLIDER),LARGHEZZA_SLIDER,ALTEZZA_SLIDER,"Prefiltraggio");//Instanzio l'oggetto *prefiltercap della classe Fl_Hor_Value_Slider per creare nella finestra uno slider orizzontale
+    this->prefiltercap=new Fl_Hor_Value_Slider(POSITION_X_SLIDER,POSITION_Y_SLIDER+3*(ALTEZZA_SLIDER),LARGHEZZA_SLIDER,ALTEZZA_SLIDER,"Prefiltraggio");//Instanzio l'oggetto *prefiltercap della classe Fl_Hor_Value_Slider per creare nella finestra uno slider orizzontale
     this->prefiltercap->minimum(1);//Imposto il valore minimo per il prefiltercap
-    this->prefiltercap->maximum(1000);//Imposto il valore massimo per il prefiltercap
+    this->prefiltercap->maximum(100);//Imposto il valore massimo per il prefiltercap
     this->prefiltercap->value(this->p_prefiltercap);//Imposto il valore contenuto nel data member della classe
     this->prefiltercap->align(FL_ALIGN_RIGHT);//allineo a destra l' indicatore
     this->prefiltercap->step(1.0);//imposto che ad ogni incremendo o decremento deve essere precisamente di 1
     this->prefiltercap->callback(PreFilterCap_CB);// definisco la funzione di callback per l'eventuale modifica della barra orizontale per la mininima disparita
     
-    this->texturethreshold=new Fl_Hor_Value_Slider(POSITION_X_SLIDER,POSITION_Y_SLIDER+5*(ALTEZZA_SLIDER),LARGHEZZA_SLIDER,ALTEZZA_SLIDER,"Soglia Texture");//Instanzio l'oggetto *prefiltercap della classe Fl_Hor_Value_Slider per creare nella finestra uno slider orizzontale
+    this->texturethreshold=new Fl_Hor_Value_Slider(POSITION_X_SLIDER,POSITION_Y_SLIDER+4*(ALTEZZA_SLIDER),LARGHEZZA_SLIDER,ALTEZZA_SLIDER,"Soglia Texture");//Instanzio l'oggetto *prefiltercap della classe Fl_Hor_Value_Slider per creare nella finestra uno slider orizzontale
     this->texturethreshold->minimum(1);//Imposto il valore minimo per il prefiltercap
     this->texturethreshold->maximum(1000);//Imposto il valore massimo per il prefiltercap
     this->texturethreshold->value(this->p_texturethreshold);//Imposto il valore contenuto nel data member della classe
@@ -56,7 +56,7 @@ Configurazione::Configurazione(const vector<string> &files):file(files){
     this->texturethreshold->step(1.0);//imposto che ad ogni incremendo o decremento deve essere precisamente di 1
     this->texturethreshold->callback(TextureThreshold_CB);// definisco la funzione di callback per l'eventuale modifica della barra orizontale per la mininima disparita
     
-    this->sws=new Fl_Hor_Value_Slider(POSITION_X_SLIDER,POSITION_Y_SLIDER+6*(ALTEZZA_SLIDER),LARGHEZZA_SLIDER,ALTEZZA_SLIDER,"Grandezza finestra spettrale");//Instanzio l'oggetto *speckle window size ratio della classe Fl_Hor_Value_Slider per creare nella finestra uno slider orizzontale
+    this->sws=new Fl_Hor_Value_Slider(POSITION_X_SLIDER,POSITION_Y_SLIDER+5*(ALTEZZA_SLIDER),LARGHEZZA_SLIDER,ALTEZZA_SLIDER,"Grandezza finestra spettrale");//Instanzio l'oggetto *speckle window size ratio della classe Fl_Hor_Value_Slider per creare nella finestra uno slider orizzontale
     this->sws->minimum(0);//Imposto il valore minimo per la speckle window size
     this->sws->maximum(1000);//Imposto il valore massimo per la speckle window size
     this->sws->value(this->p_sws);//Imposto il valore contenuto nel data member della classe
@@ -64,7 +64,7 @@ Configurazione::Configurazione(const vector<string> &files):file(files){
     this->sws->step(1.0);//imposto che ad ogni incremendo o decremento deve essere precisamente di 1
     this->sws->callback(SpekleWindow_CB);// definisco la funzione di callback per l'eventuale modifica della barra orizontale per la speckle window size
     
-    this->sr=new Fl_Hor_Value_Slider(POSITION_X_SLIDER,POSITION_Y_SLIDER+7*(ALTEZZA_SLIDER),LARGHEZZA_SLIDER,ALTEZZA_SLIDER,"Range spettro");//Instanzio l'oggetto *speckle range ratio della classe Fl_Hor_Value_Slider per creare nella finestra uno slider orizzontale
+    this->sr=new Fl_Hor_Value_Slider(POSITION_X_SLIDER,POSITION_Y_SLIDER+6*(ALTEZZA_SLIDER),LARGHEZZA_SLIDER,ALTEZZA_SLIDER,"Range spettro");//Instanzio l'oggetto *speckle range ratio della classe Fl_Hor_Value_Slider per creare nella finestra uno slider orizzontale
     this->sr->minimum(0);//Imposto il valore minimo per la speckle range
     this->sr->maximum(100);//Imposto il valore massimo per la speckle range
     this->sr->value(this->p_sr);//Imposto il valore contenuto nel data member della classe
@@ -72,7 +72,7 @@ Configurazione::Configurazione(const vector<string> &files):file(files){
     this->sr->step(1.0);//imposto che ad ogni incremendo o decremento deve essere precisamente di 1
     this->sr->callback(SpekleRange_CB);// definisco la funzione di callback per l'eventuale modifica della barra orizontale per la speckle range
     
-    this->diff12=new Fl_Hor_Value_Slider(POSITION_X_SLIDER,POSITION_Y_SLIDER+8*(ALTEZZA_SLIDER),LARGHEZZA_SLIDER,ALTEZZA_SLIDER,"Differenza di disparita' tra foto");//Instanzio l'oggetto *Disp12MaxDiff della classe Fl_Hor_Value_Slider per creare nella finestra uno slider orizzontale
+    this->diff12=new Fl_Hor_Value_Slider(POSITION_X_SLIDER,POSITION_Y_SLIDER+7*(ALTEZZA_SLIDER),LARGHEZZA_SLIDER,ALTEZZA_SLIDER,"Differenza di disparita' tra foto");//Instanzio l'oggetto *Disp12MaxDiff della classe Fl_Hor_Value_Slider per creare nella finestra uno slider orizzontale
     this->diff12->minimum(0);//Imposto il valore minimo per la Disp12MaxDiff
     this->diff12->maximum(100);//Imposto il valore massimo per la Disp12MaxDiff
     this->diff12->value(this->p_diff12);//Imposto il valore contenuto nel data member della classe
@@ -80,7 +80,7 @@ Configurazione::Configurazione(const vector<string> &files):file(files){
     this->diff12->step(1.0);//imposto che ad ogni incremendo o decremento deve essere precisamente di 1
     this->diff12->callback(Diff12_CB);// definisco la funzione di callback per l'eventuale modifica della barra orizontale per la Disp12MaxDiff
     
-    this->scallefactor = new Fl_Hor_Value_Slider(POSITION_X_SLIDER,POSITION_Y_SLIDER+9*(ALTEZZA_SLIDER),LARGHEZZA_SLIDER,ALTEZZA_SLIDER,"Fattore di scala"); //Instanzio l'oggetto *scallefactor della classe Fl_Hor_Value_Slider per creare nella finestra uno slider orizzontale
+    this->scallefactor = new Fl_Hor_Value_Slider(POSITION_X_SLIDER,POSITION_Y_SLIDER+8*(ALTEZZA_SLIDER),LARGHEZZA_SLIDER,ALTEZZA_SLIDER,"Fattore di scala"); //Instanzio l'oggetto *scallefactor della classe Fl_Hor_Value_Slider per creare nella finestra uno slider orizzontale
     this->scallefactor->minimum(1);  //Imposto il valore minimo per la scallefactor
     this->scallefactor->maximum(5);//Imposto il valore massimo per la scallefactor
     this->scallefactor->value(this->p_scallefactor);//Imposto il valore contenuto nel data member della classe
@@ -88,7 +88,7 @@ Configurazione::Configurazione(const vector<string> &files):file(files){
     this->scallefactor->step(0.001);              //imposto che ad ogni incremendo o decremento deve essere precisamente di 16
     this->scallefactor->callback(ScalleFactor_CB);  // definisco la funzione di callback per l'eventuale modifica della barra orizontale per la scallefactor
     
-    Fl_Button btn(250,y+10*(alt), 60,20,"Calcola");// definisco la funzione di callback per l'eventuale modifica della barra orizontale per la Disp12MaxDiff
+    Fl_Button btn(POSITION_X_SLIDER,POSITION_Y_SLIDER+9*(ALTEZZA_SLIDER),LARGHEZZA_SLIDER,ALTEZZA_SLIDER,"Calcola");// definisco la funzione di callback per l'eventuale modifica della barra orizontale per la Disp12MaxDiff
     btn.callback(Butt_CB,(void*)this);// definisco la funzione di callback per l'eventuale click del pulsante calcola e passo l'oggetto instanziato tramite questo costruttore
     win->show();    //Mostro la finestra
     Fl::run();      //Faccio partire l'interfaccia
@@ -190,55 +190,55 @@ void Configurazione::salvaValore(const float &valore,const int &scelta){
     switch (scelta) { // salvo il valore in base al'identificatore
         case 0:
         {
-            this->salvaSuFile(valore, stof(configurazione[1]), stof(configurazione[2]), stof(configurazione[3]), stof(configurazione[4]), stof(configurazione[5]), stof(configurazione[6]), stof(configurazione[7]), valore,stof(configurazione[8])); //salva il valore sul file insieme agli altri
+            //this->salvaSuFile(valore, stof(configurazione[1]), stof(configurazione[2]), stof(configurazione[3]), stof(configurazione[4]), stof(configurazione[5]), stof(configurazione[6]), stof(configurazione[7]), stof(configurazione[8])); //salva il valore sul file insieme agli altri
             this->p_disparity=valore;   //salvo il valore nel data member della classe
         }
             break;
         case 1:
         {
-            this->salvaSuFile(stof(configurazione[0]), valore, stof(configurazione[2]), stof(configurazione[3]), stof(configurazione[4]), stof(configurazione[5]), stof(configurazione[6]), stof(configurazione[7]), valore,stof(configurazione[8]));
+            //this->salvaSuFile(stof(configurazione[0]), valore, stof(configurazione[2]), stof(configurazione[3]), stof(configurazione[4]), stof(configurazione[5]), stof(configurazione[6]), stof(configurazione[7]), stof(configurazione[8]));
             this->p_prefiltercap=valore;//salvo il valore nel data member della classe
         }
             break;
         case 2:
         {
-            this->salvaSuFile(stof(configurazione[0]), stof(configurazione[1]), valore, stof(configurazione[3]), stof(configurazione[4]), stof(configurazione[5]), stof(configurazione[6]), stof(configurazione[7]), valore,stof(configurazione[8]));
+            //this->salvaSuFile(stof(configurazione[0]), stof(configurazione[1]), valore, stof(configurazione[3]), stof(configurazione[4]), stof(configurazione[5]), stof(configurazione[6]), stof(configurazione[7]), stof(configurazione[8]));
             this->p_texturethreshold=valore;//salvo il valore nel data member della classe
         }
             break;
         case 3:
         {
-            this->salvaSuFile(stof(configurazione[0]), stof(configurazione[1]), stof(configurazione[2]), valore, stof(configurazione[4]), stof(configurazione[5]), stof(configurazione[6]), stof(configurazione[7]), valore,stof(configurazione[8]));
+            //this->salvaSuFile(stof(configurazione[0]), stof(configurazione[1]), stof(configurazione[2]), valore, stof(configurazione[4]), stof(configurazione[5]), stof(configurazione[6]), stof(configurazione[7]), stof(configurazione[8]));
             this->p_min=valore;
         }
             break;
         case 4:
         {
-            this->salvaSuFile(stof(configurazione[0]), stof(configurazione[1]), stof(configurazione[2]), stof(configurazione[3]), valore, stof(configurazione[5]), stof(configurazione[6]), stof(configurazione[7]), valore,stof(configurazione[8]));
+            //this->salvaSuFile(stof(configurazione[0]), stof(configurazione[1]), stof(configurazione[2]), stof(configurazione[3]), valore, stof(configurazione[5]), stof(configurazione[6]), stof(configurazione[7]), stof(configurazione[8]));
             this->p_uratio=valore;
         }
             break;
         case 5:
         {
-            this->salvaSuFile(stof(configurazione[0]), stof(configurazione[1]), stof(configurazione[2]), stof(configurazione[3]), stof(configurazione[4]), valore, stof(configurazione[6]), stof(configurazione[7]), valore,stof(configurazione[8]));
+            //this->salvaSuFile(stof(configurazione[0]), stof(configurazione[1]), stof(configurazione[2]), stof(configurazione[3]), stof(configurazione[4]), valore, stof(configurazione[6]), stof(configurazione[7]), stof(configurazione[8]));
             this->p_sws=valore;
         }
             break;
         case 6:
         {
-            this->salvaSuFile(stof(configurazione[0]), stof(configurazione[1]), stof(configurazione[2]), stof(configurazione[3]), stof(configurazione[4]), stof(configurazione[5]), valore, stof(configurazione[7]), valore,stof(configurazione[8]));
+            //this->salvaSuFile(stof(configurazione[0]), stof(configurazione[1]), stof(configurazione[2]), stof(configurazione[3]), stof(configurazione[4]),stof(configurazione[5]), valore, stof(configurazione[7]),stof(configurazione[8]));
             this->p_sr=valore;
         }
             break;
         case 7:
         {
-            this->salvaSuFile(stof(configurazione[0]), stof(configurazione[1]), stof(configurazione[2]), stof(configurazione[3]), stof(configurazione[4]), stof(configurazione[5]), stof(configurazione[6]), valore,stof(configurazione[8]));
+            //this->salvaSuFile(stof(configurazione[0]), stof(configurazione[1]), stof(configurazione[2]), stof(configurazione[3]), stof(configurazione[4]), stof(configurazione[5]), stof(configurazione[6]), valore,stof(configurazione[8]));
             this->p_diff12=valore;
         }
             break;
         case 8:
         {
-            this->salvaSuFile(stof(configurazione[0]), stof(configurazione[1]), stof(configurazione[2]), stof(configurazione[3]), stof(configurazione[4]), stof(configurazione[5]), stof(configurazione[6]),stof(configurazione[7]), valore);
+           // this->salvaSuFile(stof(configurazione[0]), stof(configurazione[1]), stof(configurazione[2]), stof(configurazione[3]), stof(configurazione[4]), stof(configurazione[5]), stof(configurazione[6]),stof(configurazione[7]), valore);
             this->p_scallefactor=valore;
         }
             break;
@@ -247,13 +247,13 @@ void Configurazione::salvaValore(const float &valore,const int &scelta){
             break;
     }
 }
-void Configurazione::salvaSuFile(const float &disparita,const float &prefiltercap,const float &texturethreshold,const float &minDisparita,const float &uniquessRatio,const float &sws,const float &sr,const float &diff12,float &scalle)const{
+void Configurazione::salvaSuFile(const float &disparita,const float &prefiltercap,const float &texturethreshold,const float &minDisparita,const float &uniquessRatio,const float &sws,const float &sr,const float &diff12,const float &scalle)const{
     FILE* fp = fopen("configurazione.txt", "wt");//apro il file
     fprintf(fp, "%f %f %f %f %f %f %f %f %f\n",disparita, prefiltercap, texturethreshold, minDisparita, uniquessRatio, sws, sr, diff12,scalle);//salvo i valori
     fclose(fp);//chiudo file
 }
 float Configurazione:: estraiDisparita() const{
-   return this->p_disparity;
+    return this->p_disparity;
 }
 float Configurazione::estraiPrefilterCap() const{
     return this->p_prefiltercap;
@@ -333,7 +333,7 @@ void Configurazione::inizializzazioneParametri(){
     
 }
 void Configurazione::setParams(Fl_Widget*w){
-    Ricostruttore3d *r = new Ricostruttore3d(this->file,2,this->estraiDisparita(),this->estraiMinDisparita(),this->estraiUniqueRatio(),this->estraiSWS(),this->estraiSR(),this->estraiDiff12(),this->estraiPrefilterCap(),this->estraiTextureThreshould(),this->estraiScalle);
+    Ricostruttore3d *r = new Ricostruttore3d(this->file,2,this->estraiDisparita(),this->estraiMinDisparita(),this->estraiUniqueRatio(),this->estraiSWS(),this->estraiSR(),this->estraiDiff12(),this->estraiPrefilterCap(),this->estraiTextureThreshould(),this->estraiScalle());
     delete r;
     r = 0;
 }

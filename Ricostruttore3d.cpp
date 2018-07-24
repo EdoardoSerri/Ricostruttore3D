@@ -9,13 +9,12 @@
 #include "Ricostruttore3d.h"
 using namespace std;
 
-Ricostruttore3d::Ricostruttore3d(const vector <string> &value,const int &ncore, const float &disparityValue, const float &mindisparityValue, const float &uniqValue, const float &swsValue, const float &srValue, const float &diff12Value, const float &p1Value, const float &p2Value):core(ncore),listaNomiImg(value),nImages((int)value.size()),lock(false)
+Ricostruttore3d::Ricostruttore3d(const vector <string> &value,const int &ncore, const float &disparityValue, const float &mindisparityValue, const float &uniqValue, const float &swsValue, const float &srValue, const float &diff12Value, const float &filtercapValue, const float &textureValue, const float &scalleValue):core(ncore),listaNomiImg(value),nImages((int)value.size()),lock(false)
 {
     mostraMessaggio();
     cout<<"Inizio la ricostruzione delle "<< value.size() <<" immagini"<<endl;
     if(nImages>=2&&nImages%2==0){
-        int k=0;
-        for(int j=0;j<(nImages/2);j++){
+        int j=0;
             cout<<"Creo "<< j+1<<"a disparita'";
             Ptr<Bidimensionale> image = new Bidimensionale((string)estraiInformazioniElemento(this->listaNomiImg[j]).at(1),(string)estraiInformazioniElemento(this->listaNomiImg[j]).at(0),nImages);
             imshow("prima IMG", image->estraiFile());
@@ -43,13 +42,13 @@ Ricostruttore3d::Ricostruttore3d(const vector <string> &value,const int &ncore, 
             Ptr<StereoBinaryBM> sbm = StereoBinaryBM::create(disparityValue, kernel_size);
             // we set the corresponding parameters
             sbm->setMinDisparity(mindisparityValue);
-            sbm->setPreFilterCap(61);
-            sbm->setTextureThreshold(507);
+            sbm->setPreFilterCap(filtercapValue);
+            sbm->setTextureThreshold(textureValue);
             sbm->setUniquenessRatio(uniqValue);
             sbm->setSpeckleWindowSize(swsValue); // speckle size
             sbm->setSpeckleRange(srValue);
             sbm->setDisp12MaxDiff(diff12Value);
-            sbm->setScalleFactor(1); // the scaling factor
+            sbm->setScalleFactor(scalleValue); // the scaling factor
             sbm->setBinaryKernelType(binary_descriptor_type); // binary descriptor kernel
             sbm->setAgregationWindowSize(aggregation_window);
             // the user can choose between the average speckle removal algorithm or
@@ -57,42 +56,9 @@ Ricostruttore3d::Ricostruttore3d(const vector <string> &value,const int &ncore, 
             sbm->setSpekleRemovalTechnique(CV_SPECKLE_REMOVAL_AVG_ALGORITHM);
             sbm->setUsePrefilter(false);
             
-            /*Ptr<StereoBinaryBM> sbm = StereoBinaryBM::create(112, kernel_size);
-             // we set the corresponding parameters
-             sbm->setPreFilterCap(63);
-             sbm->setMinDisparity(36);
-             sbm->setTextureThreshold(507);
-             sbm->setUniquenessRatio(5);
-             sbm->setSpeckleWindowSize(10);//speckle size
-             sbm->setSpeckleRange(5);
-             sbm->setDisp12MaxDiff(10);
-             sbm->setScalleFactor(16);//the scaling factor
-             sbm->setBinaryKernelType(binary_descriptor_type);//binary descriptor kernel
-             sbm->setAgregationWindowSize(aggregation_window);
-             //speckle removal algorithm the user can choose between the average speckle removal algorithm
-             //or the classical version that was implemented in open cv
-             sbm->setSpekleRemovalTechnique(CV_SPECKLE_REMOVAL_AVG_ALGORITHM);
-             sbm->setUsePrefilter(true);//pre-filter or not the images prior to making the transformations
-             //-- calculate the disparity image
-             */
-            /*
-            // we set the corresponding parameters
-            Ptr<StereoBinarySGBM> sgbm = StereoBinarySGBM::create(mindisparityValue,disparityValue , kernel_size);
-            
-            // setting the penalties for sgbm
-            sgbm->setP1(p1Value);
-            sgbm->setP2(p2Value);
-            sgbm->setMinDisparity(mindisparityValue);
-            sgbm->setUniquenessRatio(uniqValue);
-            sgbm->setSpeckleWindowSize(swsValue);
-            sgbm->setSpeckleRange(srValue);
-            sgbm->setDisp12MaxDiff(diff12Value);
-            sgbm->setBinaryKernelType(binary_descriptor_type);
-            sgbm->setSpekleRemovalTechnique(CV_SPECKLE_REMOVAL_AVG_ALGORITHM);
-            sgbm->setSubPixelInterpolationMethod(CV_SIMETRICV_INTERPOLATION);
-            */
             Mat disparity;
             disparity = Mat(image->estraiFile().rows, image->estraiFile().cols, CV_8UC1);
+            sbm->compute(image2->estraiFile() , image->estraiFile(), disparity);
             vector<vector<Point2f> > imagePoints[2];
             vector<vector<Point3f> > objectPoints;
             
@@ -135,40 +101,35 @@ Ricostruttore3d::Ricostruttore3d(const vector <string> &value,const int &ncore, 
                                          CALIB_FIX_K3 + CALIB_FIX_K4 + CALIB_FIX_K5,
                                          TermCriteria(TermCriteria::COUNT+TermCriteria::EPS, 100, 1e-5) );
             cout << "done with RMS error=" << rms << endl;
+            Mat map1x,map1y,map2x,map2y;
             Mat R1, R2, P1, P2, Q;
             Rect validRoi[2];
+            
             
             stereoRectify(cameraMatrix[0], distCoeffs[0],
                           cameraMatrix[1], distCoeffs[1],
                           image->estraiSize(), R, T, R1, R2, P1, P2, Q,
                           CALIB_ZERO_DISPARITY, 1, image->estraiSize(), &validRoi[0], &validRoi[1]);
             
-            sbm->compute(image2->estraiFile() , image->estraiFile(), disparity);
+            Q.convertTo(Q, CV_32F);
             
+            initUndistortRectifyMap(cameraMatrix[0], distCoeffs[0], R1, P1, image->estraiSize(), CV_32FC1, map1x, map1y);
+            initUndistortRectifyMap(cameraMatrix[1], distCoeffs[1], R2, P2, image2->estraiSize(), CV_32FC1, map2x, map2y);
+            for(int size=0;size<2;size++){
+                remap(imread(image->estraiNome(), IMREAD_GRAYSCALE), imread(image->estraiNome(), IMREAD_GRAYSCALE), map1x, map1y, INTER_LINEAR);
+                remap(imread(image2->estraiNome(), IMREAD_GRAYSCALE), imread(image2->estraiNome(), IMREAD_GRAYSCALE), map2x, map2y, INTER_LINEAR);
+            }
+        
+        
             
             imshow("Prima",disparity);
-            disparity.convertTo(disparity, CV_32F, 1.0 / 32.0);
-            Mat disp8;
-            normalize(disparity, disp8, 0, 255, CV_MINMAX, CV_8UC1);
-            double minVal; double maxVal;
-            
-            minMaxLoc(disparity, &minVal, &maxVal);
-            
-            printf("Min disp: %f Max value: %f \n", minVal, maxVal);
-            
-            // Display it as a CV_8UC1 image
-            disparity.convertTo(disp8, CV_8UC1, 255 / (maxVal - minVal));
-            
+            disparity.convertTo(disparity, CV_8U, 255 / (disparityValue*16.));
+            disparity.convertTo(disparity, CV_32F, 1.f / 16.f);
             this->listDisparity.push_back(disparity);
-            this->matrixQ=Q;
-            k++;
-            k++;
-        }
-        
-        
+                    this->matrixQ=Q;
+            
         cout<<"Creo disparita' a due a due";
         visualizza();
-        
     }else{
         cout<<"Non e' possibile ricostruire con una sola foto";
     }
@@ -177,45 +138,19 @@ Ricostruttore3d::~Ricostruttore3d(){
     cout<<"Il ricostruttore 3d e' terminato"<<endl;
 }
 void Ricostruttore3d::visualizza()const{
-        Mat image3DOCV(this->listDisparity.at(0).size(), CV_32FC3);
-    
-        if(this->listDisparity.size()<2){
-            cout<<"visualizza"<<endl;
-            imshow("Ricostruttore", this->listDisparity.at(0));
-            reprojectImageTo3D(this->listDisparity.at(0), image3DOCV, this->matrixQ, false, CV_32F);
-            imshow("Ricostruttoree", image3DOCV);
-            Visualizzatore v(image3DOCV);
+    Mat image3DOCV(this->listDisparity.at(0).size(), CV_32FC1);
+    if(this->listDisparity.size()<2){
+        cout<<"visualizza"<<endl;
+        imshow("Ricostruttore", this->listDisparity.at(0));
+        reprojectImageTo3D(this->listDisparity.at(0), image3DOCV, this->matrixQ,false,CV_32F );
+        imshow("Ricostruttoree", image3DOCV);
+        Mat color = imread(this->listaNomiImg[0], IMREAD_COLOR );
+        Visualizzatore v(image3DOCV,color);
     }else{
         cout<<"Errore non ci sono disparita'"<<endl;
     }
 }
 
-Mat Ricostruttore3d::estraiDisparityDepthMap(Bidimensionale a,Bidimensionale b){
-            Mat disparityResult;
-            Ptr<StereoBinaryBM> sbm = StereoBinaryBM::create(112, 9);
-            // we set the corresponding parameters
-            sbm->setMinDisparity(0);
-            sbm->setPreFilterCap(61);
-            sbm->setTextureThreshold(507);
-            sbm->setUniquenessRatio(0);
-            sbm->setSpeckleWindowSize(400); // speckle size
-            sbm->setSpeckleRange(4);
-            sbm->setDisp12MaxDiff(0);
-            sbm->setScalleFactor(1); // the scaling factor
-            sbm->setBinaryKernelType(1); // binary descriptor kernel
-            sbm->setAgregationWindowSize(5);
-            // the user can choose between the average speckle removal algorithm or
-            // the classical version that was implemented in OpenCV
-            sbm->setSpekleRemovalTechnique(CV_SPECKLE_REMOVAL_AVG_ALGORITHM);
-            sbm->setUsePrefilter(false);
-            //-- calculate the disparity image
-            //sbm->compute(a.estraiFile() , b.estraiFile(), disparityResult);
-    
-    return disparityResult;
-}
-bool Ricostruttore3d::occupato(){
-    return lock;
-}
 void Ricostruttore3d::vediNumeroImmagini(){
     cout<< "Ci sono "<< this->listaNomiImg.size()<<" attualmente nel ricostruttore";
 }
