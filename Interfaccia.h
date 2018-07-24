@@ -1,5 +1,5 @@
 #ifndef Interfaccia_H
-#define Interfaccia_H
+#define Intefaccia_H
 
 #include "Configurazione.h"
 #include <FL/Fl.H>
@@ -8,25 +8,30 @@
 #include <FL/Fl_Button.H>
 #include <FL/Fl_File_Chooser.H>
 #include <FL/Fl_Native_File_Chooser.H>
+#include <FL/Fl_Image.H>
 #include <iostream>
 #include <vector>
 #include <string>
-
+#include <iterator>
 
 class Interfaccia {
 public:
 	Interfaccia();
 	void costruzioneFinestra();
-	vector<std::string> getPath();
+	std::vector<std::string> getPath();
 
 private:
-	Fl_Button *but = NULL;
+	Fl_Button *buts = NULL;
+	Fl_Button *butd = NULL;
+	Fl_Button *avanti = NULL;
 	Fl_Button *cancella = NULL;
 	Fl_Window *win = NULL;
-	vector<std::string> path;
-	void setInitButt(Fl_Button *but, Fl_Button *cancella);
-	void scegliFile_CB(Fl_Widget* w);
+	std::vector<std::string> path;
+	void setInitButt(Fl_Button *buts, Fl_Button *butd, Fl_Button *avanti, Fl_Button *cancella);
+	void scegliFile_CB(Fl_Widget* theButton);
 	static void staticScegliFileCB(Fl_Widget* w, void* data);
+	void avantiCB(Fl_Widget* w);
+	static void staticAvantiCB(Fl_Widget* w, void* data);
 	void esci_CB(Fl_Widget* w);
 	static void staticEsci_CB(Fl_Widget* w, void* data);
 };
