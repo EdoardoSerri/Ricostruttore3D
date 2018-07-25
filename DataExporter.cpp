@@ -4,6 +4,8 @@
 //  Created by Cedric Leblond Menard on 16-06-27.
 //  Copyright © 2016 Cedric Leblond Menard. All rights reserved.
 //
+//  Integrato da Omar Cocchiarella per esportazione del file ply
+//
 
 #include "DataExporter.hpp"
 

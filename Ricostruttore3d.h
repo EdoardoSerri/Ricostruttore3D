@@ -21,7 +21,7 @@
 #include <fstream>
 #include <ctype.h>
 #include "Bidimensionale.h"
-#include "visualizzatore.hpp"
+#include "Tridimensionale.h"
 #include <stdio.h>
 #include <thread>
 using namespace std;
@@ -42,8 +42,8 @@ private:
     void riprogettazione(const cv::Mat&, const cv::Mat&, cv::Mat&)const;
     void mostraMessaggio() const;
     void visualizza() const;
-    vector <string> estraiInformazioniElemento(const string &);
-    vector <string> explode(const string &,const char &);
+    vector <string> estraiInformazioniElemento(const string &) const;
+    vector <string> explode(const string &,const char &) const;
     Mat estraiDisparityDepthMap( Bidimensionale ,  Bidimensionale );
      bool occupato();
     const int nImages=0;

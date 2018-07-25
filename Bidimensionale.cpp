@@ -1,35 +1,30 @@
-//
-//  classe Bidimensionale.cpp
-//  Bidimensionale
-//
-//  Created by Crismesy ing on 22/05/18.
-//  Copyright © 2018 Crismesy ing. All rights reserved.
-//
 
 #include "Bidimensionale.h"
 
-Bidimensionale::Bidimensionale(const string &pathName, const string &imgName, const int &nImages):Immagine(pathName,imgName),file(imread(estraiNome(),IMREAD_GRAYSCALE)),size(file.size())
+Bidimensionale::Bidimensionale(const std::string &pathName, const std::string &imgName, const int &nImages):Immagine(pathName,imgName),file(cv::imread(estraiNome(),cv::IMREAD_GRAYSCALE)),size(file.size())
 {
-    Immagine::print();
+    std::cout<<this->estraiNome()<<std::endl;
 }
 Bidimensionale::~Bidimensionale(){
-    cout<<"Immagine ";
-    Immagine::print();
-    cout<<" distrutta!"<<endl;
+    std::cout<<"Immagine ";
+    Immagine::toString();
+    std::cout<<" distrutta!"<<std::endl;
 }
-string Bidimensionale::estraiNome()const{
+std::string Bidimensionale::estraiNome()const{
     return Immagine::toString();
 }
-Mat Bidimensionale::estraiFile()const{
+cv::Mat Bidimensionale::estraiFile()const{
     return this->file;
 }
-Size Bidimensionale::estraiSize()const{
+cv::Size Bidimensionale::estraiSize()const{
     return this->size;
 }
 void Bidimensionale::salva()const{
-    cout<< "Nome immagine: ";
-    Immagine::print();
-    cout<<". Salvata! "<<endl;
+    std::cout<< "Nome immagine: ";
+    std::cout<<this->estraiNome()<<std::endl;
+    std::cout<<". Salvata! "<<std::endl;
 }
-
+void Bidimensionale::stampa()const{
+    cv::imshow(this->estraiNome(),this->estraiFile());
+}
 

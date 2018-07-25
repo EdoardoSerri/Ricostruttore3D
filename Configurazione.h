@@ -46,7 +46,6 @@ public:
 private:
     void inizializzazioneParametri();
     void salvaSuFile(const float &,const float &,const float &,const float &,const float &,const float &,const float &,const float &,const float &)const;
-    void salvaValore(const float&,const int &);
     vector<string> explode(const string&,const char&);
     static void Butt_CB(Fl_Widget*, void*);
     static void Disparita_CB(Fl_Widget*, void*);
@@ -58,17 +57,9 @@ private:
     static void SpekleRange_CB(Fl_Widget*, void*);
     static void Diff12_CB(Fl_Widget*, void*);
     static void ScalleFactor_CB(Fl_Widget*, void*);
-    void creaFile()const;
+    
     void setParams(Fl_Widget* w);
-    Fl_Slider *disp=NULL;
-    Fl_Slider *prefiltercap=NULL;
-    Fl_Slider *texturethreshold=NULL;
-    Fl_Slider *mind=NULL;
-    Fl_Slider *uratio=NULL;
-    Fl_Slider *sws=NULL;
-    Fl_Slider *sr=NULL;
-    Fl_Slider *diff12=NULL;
-    Fl_Slider *scallefactor=NULL;
+    
     static float p_disparity;
     static float p_prefiltercap;
     static float p_texturethreshold;
