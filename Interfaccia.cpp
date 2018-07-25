@@ -1,33 +1,34 @@
 #include "Interfaccia.h"
 
 
-	Interfaccia::Interfaccia() {
+	Interfaccia::Interfaccia()  {
 
-		this->win = new Fl_Window(600, 180, "Ricostruttore 3D"); // costruttore inizializza grandezza finestra principale	
+		InizializzatoreInterfacce::setWindow(600, 180, "Ricostruttore 3D");
+
 	}
 
 	void Interfaccia::setInitButt(Fl_Button *buts, Fl_Button *butd, Fl_Button *avanti, Fl_Button *cancella) { //funzione che definisce i bottoni e le funzioni ad essi associate
-		buts = new Fl_Button(this->win->w() / 2 - 230, 30, 120, 80, "Scegli l'immagine \n di sinistra");
+		buts = new Fl_Button(getWindow()->w() / 2 - 230, 30, 120, 80, "Scegli l'immagine \n di sinistra");
 		buts->callback(Interfaccia::staticScegliFileCB, (void*)this); // apre il file explorer
 
-		butd = new Fl_Button(this->win->w() / 2-50, 30, 120, 80, "Scegli l'immagine \n di destra");
+		butd = new Fl_Button(getWindow()->w() / 2-50, 30, 120, 80, "Scegli l'immagine \n di destra");
 		butd->callback(Interfaccia::staticScegliFileCB, (void*)this); // apre il file explorer
 
-		avanti = new Fl_Button(this->win->w() - 120, 80, 80, 30, "Avanti");
+		avanti = new Fl_Button(getWindow()->w() - 120, 80, 80, 30, "Avanti");
 		avanti->callback(Interfaccia::staticAvantiCB, (void*)this);	
 		
-		cancella = new Fl_Button(this->win->w() - 120, 30, 80, 30, "Esci");
+		cancella = new Fl_Button(getWindow()->w() - 120, 30, 80, 30, "Esci");
 		cancella->callback(Interfaccia::staticEsci_CB); // chiude il programma
 	}
 
 	void Interfaccia::costruzioneFinestra() { // Funzione per la creazione della finestra
-		this->win->size_range(this->win->w(), this->win->h(), 0, 0);
-		this->win->begin();
+		getWindow()->size_range(getWindow()->w(), getWindow()->h(), 0, 0);
+		getWindow()->begin();
 		{
 			Interfaccia::setInitButt( this->buts, this->butd,this->avanti, this->cancella);		
 		}
-		this->win->end();
-		this->win->show();
+		getWindow()->end();
+		getWindow()->show();
 		Fl::run(); //loop per la visualizzazione della finestra
 	}
 
@@ -78,10 +79,9 @@
 					this->path.clear(); // libera il vector
 					break;
 				case 1: // esegue il ricostruttore
-					this->win->hide();
-					delete this->win;
-					this->win = 0;
-					Configurazione *c=new Configurazione(this->getPath());
+					getWindow()->hide();
+					delete getWindow();
+					InizializzatoreInterfacce::~InizializzatoreInterfacce();
 					break;
 			}
 		}

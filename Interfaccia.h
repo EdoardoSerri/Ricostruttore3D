@@ -1,20 +1,9 @@
 #ifndef Interfaccia_H
 #define Intefaccia_H
 
-#include "Configurazione.h"
-#include <FL/Fl.H>
-#include <FL/Fl_Window.H>
-#include <FL/fl_ask.H>
-#include <FL/Fl_Button.H>
-#include <FL/Fl_File_Chooser.H>
-#include <FL/Fl_Native_File_Chooser.H>
-#include <FL/Fl_Image.H>
-#include <iostream>
-#include <vector>
-#include <string>
-#include <iterator>
+#include "InizializzatoreInterfacce.h"
 
-class Interfaccia {
+class Interfaccia : public InizializzatoreInterfacce {
 public:
 	Interfaccia();
 	void costruzioneFinestra();
@@ -25,7 +14,6 @@ private:
 	Fl_Button *butd = NULL;
 	Fl_Button *avanti = NULL;
 	Fl_Button *cancella = NULL;
-	Fl_Window *win = NULL;
 	std::vector<std::string> path;
 	void setInitButt(Fl_Button *buts, Fl_Button *butd, Fl_Button *avanti, Fl_Button *cancella);
 	void scegliFile_CB(Fl_Widget* theButton);
