@@ -27,8 +27,8 @@
 		{
 			Interfaccia::setInitButt( this->buts, this->butd,this->avanti, this->cancella);		
 		}
-		getWindow()->end();
-		getWindow()->show();
+        InizializzatoreInterfacce::getWindow()->end();
+        InizializzatoreInterfacce::getWindow()->show();
 		Fl::run(); //loop per la visualizzazione della finestra
 	}
 

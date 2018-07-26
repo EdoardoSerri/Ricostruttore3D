@@ -6,8 +6,8 @@
 #include "Configurazione.h"
 
 Configurazione::Configurazione(const vector<string> &files):file(files){
-    //this->inizializzazioneParametri(); //Inizializzazione degli eventuali dati settati precedentemente
-    Fl_Window *win = new Fl_Window(500, 300, "Parametri per la ricostruzione 3d");//Costruzione Finestra del matcher
+    Fl_Window *win = new Fl_Window(500, 300, "Parametri per la ricostruzione 3d");
+    InizializzatoreInterfacce::setWindow(500, 300, "Parametri per la ricostruzione 3d");//Costruzione Finestra del matcher
     Fl_Clock *fcl=new Fl_Clock(400,10,50,50,"Team Alpha");  // Costruzione dell'orologio analogico e settaggio del nome: Nel caso scelto ho preferito inserire il nome del gruppo
     Fl_Progress *fpl=new Fl_Progress(20, 220, 150, 15,"Caricamento"+10); //Costruzione dello slider che fungerà da indicatore di completamento della ricostruzione
     fpl->maximum(100); //Imposto il valore massimo dell'indicatore di completamento
@@ -90,7 +90,7 @@ Configurazione::Configurazione(const vector<string> &files):file(files){
     
     Fl_Button *btn = new Fl_Button(POSITION_X_SLIDER,POSITION_Y_SLIDER+9*(ALTEZZA_SLIDER),LARGHEZZA_SLIDER,ALTEZZA_SLIDER,"Calcola");// definisco la funzione di callback per l'eventuale modifica della barra orizontale per la Disp12MaxDiff
     btn->callback(Butt_CB,(void*)this);// definisco la funzione di callback per l'eventuale click del pulsante calcola e passo l'oggetto instanziato tramite questo costruttore
-    win->show();    //Mostro la finestra
+    getWindow() ->show();    //Mostro la finestra
     Fl::run();      //Faccio partire l'interfaccia
 }
 //////////

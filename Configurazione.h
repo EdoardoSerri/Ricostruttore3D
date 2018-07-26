@@ -23,6 +23,7 @@
 #include <vector>
 #include <iostream>
 #include "Ricostruttore3d.h"
+#include "InizializzatoreInterfacce.h"
 #define LARGHEZZA_SLIDER 200 //definisco una costante che voglio rimarrà identica per tutto il tempo di esecuzione
 #define ALTEZZA_SLIDER 20 //definisco una costante che voglio rimarrà identica per tutto il tempo di esecuzione
 #define POSITION_X_SLIDER 20 //definisco una costante che voglio rimarrà identica per tutto il tempo di esecuzione
@@ -30,7 +31,7 @@
 #define DATA "configurazione.txt" //definisco una costante che voglio rimarrà identica per tutto il tempo di esecuzione
 using namespace std;    //
 
-class Configurazione{
+class Configurazione final:private InizializzatoreInterfacce{
 public:
     Configurazione(const vector<string> &);
     

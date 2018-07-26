@@ -121,7 +121,7 @@ Ricostruttore3d::Ricostruttore3d(const vector <string> &value,const int &ncore, 
                           CALIB_ZERO_DISPARITY, 1, image->estraiSize(), &validRoi[0], &validRoi[1]);
             
             Q.convertTo(Q, CV_32F);
-
+            //(void *)visualizza();
             imshow("Prima",disparity);
             disparity.convertTo(disparity, CV_8U, 255 / (disparityValue*16.));
             disparity.convertTo(disparity, CV_32FC1, 1.f / 32.f);
@@ -129,7 +129,8 @@ Ricostruttore3d::Ricostruttore3d(const vector <string> &value,const int &ncore, 
             this->matrixQ=Q;
             
         cout<<"Creo disparita' a due a due";
-        visualizza();
+        
+        this->visualizza();
     }else{
         cout<<"Non e' possibile ricostruire con una sola foto";
     }
@@ -137,24 +138,29 @@ Ricostruttore3d::Ricostruttore3d(const vector <string> &value,const int &ncore, 
 Ricostruttore3d::~Ricostruttore3d(){
     cout<<"Il ricostruttore 3d e' terminato"<<endl;
 }
-void Ricostruttore3d::visualizza()const{
-    Mat image3DOCV(this->listDisparity.at(0).size(), CV_32FC3);
-    if(this->listDisparity.size()<2){
-        cout<<"visualizza"<<endl;
-        imshow("Ricostruttore", this->listDisparity.at(0));
-        
-        reprojectImageTo3D(this->listDisparity.at(0), image3DOCV, this->matrixQ,false,CV_32F );
-        
-        imshow("Ricostruttoree", image3DOCV);
-        
-        Mat color = imread(this->listaNomiImg[0], IMREAD_COLOR);
-        
-        Ptr<Tridimensionale> tri = new Tridimensionale((string)estraiInformazioniElemento(this->listaNomiImg[0]).at(1),"pointcloud.ply",image3DOCV,color);
-        tri->stampa();
-    }else{
-        cout<<"Errore non ci sono disparita'"<<endl;
-    }
+void Ricostruttore3d::visualizza(){
+                Mat image3DOCV(this->listDisparity.at(0).size(), CV_32FC3);
+                if(this->listDisparity.size()<2){
+                    cout<<"visualizza"<<endl;
+                    imshow("Ricostruttore", this->listDisparity.at(0));
+                    
+                    reprojectImageTo3D(this->listDisparity.at(0), image3DOCV, this->matrixQ,false,CV_32F );
+                    
+                    imshow("Ricostruttoree", image3DOCV);
+                    
+                    Mat color = imread(this->listaNomiImg[0], IMREAD_COLOR);
+                    
+                    Ptr<Tridimensionale> tri = new Tridimensionale((string)estraiInformazioniElemento(this->listaNomiImg[0]).at(1),"pointcloud.ply",image3DOCV,color);
+                    
+                        tri->stampa();
+                    
+                    
+                }
+    
+
+    
 }
+
 
 void Ricostruttore3d::vediNumeroImmagini(){
     cout<< "Ci sono "<< this->listaNomiImg.size()<<" attualmente nel ricostruttore";

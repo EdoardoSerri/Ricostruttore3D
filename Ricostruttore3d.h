@@ -23,7 +23,6 @@
 #include "Bidimensionale.h"
 #include "Tridimensionale.h"
 #include <stdio.h>
-#include <thread>
 using namespace std;
 using namespace cv;
 using namespace cv::stereo;
@@ -31,9 +30,9 @@ class Bidimensionale;
 class Configurazione;
 class Ricostruttore3d{
 public:
-    Ricostruttore3d();
     Ricostruttore3d(const vector <string> &, const int &, const float &, const float &, const float &, const float &, const float &, const float &, const float &, const float &, const float &);
     ~Ricostruttore3d();
+    
     void vediImmagine(const int &);
     void vediImmagini();
     void vediNumeroImmagini();
@@ -41,7 +40,7 @@ public:
 private:
     void riprogettazione(const cv::Mat&, const cv::Mat&, cv::Mat&)const;
     void mostraMessaggio() const;
-    void visualizza() const;
+    void visualizza();
     vector <string> estraiInformazioniElemento(const string &) const;
     vector <string> explode(const string &,const char &) const;
     Mat estraiDisparityDepthMap( Bidimensionale ,  Bidimensionale );
